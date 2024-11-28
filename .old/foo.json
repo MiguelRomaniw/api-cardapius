@@ -1,0 +1,68 @@
+{
+	"company": "c2977b7e-71b0-4f92-be57-0b5e9f37ec23",
+	"type": "Retirada",
+	"paymentMethod": "Pix",
+	"address": {
+		"cep": "55297370",
+		"state": "Pernambuco",
+		"city": "Garanhuns",
+		"county": "Heliópolis",
+		"street": "Rua Abílio Camilo Valença",
+		"number": "22",
+		"complement": "Apto. 3"
+	},
+	"details": "Tocar na campainha 3",
+	"orderItems": [
+		{
+			"quantity": 1,
+			"products": [
+				{
+					"quantity": 1,
+					"product": "147c0f09-cadd-4cbe-9f9d-be642e38bc1a",
+					"metadata": {
+						"proportion": {
+							"value": 1,
+							"parts": 2
+						}
+					},
+					"additionalGroups": [
+						{
+							"additionalGroup": "7b96d442-7bec-404b-9703-d46568120ff9",
+							"additionals": [
+								{
+									"additional": "58f94213-58f7-47c1-8953-85bb1f511632",
+									"quantity": 4
+								}
+							]
+						}
+					]
+				},
+				{
+					"quantity": 1,
+					"product": "e7edd37f-a1ef-49c2-bb2e-b907e80b1311",
+					"metadata": {
+						"proportion": {
+							"value": 1,
+							"parts": 2
+						}
+					}
+				}
+			]
+		},
+		{
+			"product": "49714751-1634-4fd6-8169-0659d2e79aff",
+			"quantity": 1,
+			"additionalGroups": [
+				{
+					"additionalGroup": "548c7f2d-c98d-4ca0-b86f-7221877b6cfc",
+					"additionals": [
+						{
+							"additional": "171652c0-7829-4157-9422-04e3033aafbf",
+							"quantity": 2
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Check</title>
+    <style>
+      body {
+        background-color: #121212;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .container {
+        text-align: center;
+      }
+      .ok {
+        color: #4caf50; /* Green */
+      }
+      .error {
+        color: #f44336; /* Red */
+      }
+      .duration {
+        font-size: 1.2em;
+        margin-top: 10px;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="database">
+        <h1>Database Connection Status: <span id="database-status">...</span></h1>
+        <p class="duration">Database Response Time: <span id="database-duration">...</span></p>
+      </div>
+      <div class="application">
+        <h1>Application Status: <span id="application-status">...</span></h1>
+        <p class="duration">Application Response Time: <span id="application-duration">...</span></p>
+        <p class="uptime">Application UpTime: <span id="application-uptime">...</span></p>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module">
+      axios.interceptors.request.use((request) => {
+        request.metadata = { startTime: Date.now() };
+        return request;
+      });
+
+      axios.interceptors.response.use(
+        (response) => {
+          response.config.metadata.endTime = Date.now();
+          response.duration = response.config.metadata.endTime - response.config.metadata.startTime;
+          console.log(`Request to ${response.config.url} took ${response.duration} ms`);
+          return response;
+        },
+        (error) => {
+          error.config.metadata.endTime = Date.now();
+          error.duration = error.config.metadata.endTime - error.config.metadata.startTime;
+          console.log(`Request to ${error.config.url} took ${error.duration} ms`);
+          return Promise.reject(error);
+        }
+      );
+
+      import prettyMs from "https://cdn.jsdelivr.net/npm/pretty-ms@9.0.0/+esm";
+
+      window.addEventListener("load", async () => {
+        try {
+          const response = await axios.post("<%= url %>/health-check/");
+          const data = response.data;
+
+          const applicationStatusSpan = document.querySelector("#application-status");
+          const applicationDurationSpan = document.querySelector("#application-duration");
+
+          applicationStatusSpan.textContent = response.status;
+          applicationDurationSpan.textContent = `${response.duration.toFixed(1)}ms`;
+
+          applicationStatusSpan.classList.add(data.status);
+
+          const databaseStatusSpan = document.querySelector("#database-status");
+          const databaseDurationSpan = document.querySelector("#database-duration");
+          const databaseUptimeSpan = document.querySelector("#application-uptime");
+
+          databaseStatusSpan.textContent = data.status;
+          databaseDurationSpan.textContent = `${data.duration}ms`;
+          databaseUptimeSpan.textContent = prettyMs(data.uptime, { compact: true });
+
+          databaseStatusSpan.classList.add(data.status);
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+      // fetch(, {
+      //   method: "POST",
+      // })
+      //   .then((response) => {
+      //     const duration = performance.now() - start;
+
+      //     const statusSpan = document.querySelector("#application-status");
+      //     const durationSpan = document.querySelector("#application-duration");
+
+      //     statusSpan.textContent = response.status;
+      //     durationSpan.textContent = `${duration.toFixed(1)}ms`;
+
+      //     statusSpan.classList.add(response.status);
+
+      //     return response.json();
+      //   })
+      //   .then((data) => {
+      //     const statusSpan = document.querySelector("#database-status");
+      //     const durationSpan = document.querySelector("#database-duration");
+      //     const uptimeSpan = document.querySelector("#application-uptime");
+
+      //     console.log(data);
+
+      //     statusSpan.textContent = data.status;
+      //     durationSpan.textContent = `${data.duration}ms`;
+      //     uptimeSpan.textContent = prettyMs(data.uptime, { compact: true });
+
+      //     statusSpan.classList.add(data.status);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+    </script>
+  </body>
+</html>

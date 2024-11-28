@@ -1,0 +1,33 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"declarationMap": true,
+		"composite": true,
+		"target": "es2016",
+		"module": "commonjs",
+		"esModuleInterop": true,
+		"rootDir": "./src",
+		"baseUrl": "./src",
+		"paths": {
+			"Shared/*": [
+				"./*"
+			],
+			"Src/*": [
+				"./*"
+			]
+		},
+		"outDir": "./dist",
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true
+	},
+	"references": [],
+	"include": [
+		"src/**/*.ts"
+	],
+	"exclude": [
+		"src/database/seeders"
+	]
+}
